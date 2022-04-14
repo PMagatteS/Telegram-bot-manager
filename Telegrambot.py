@@ -85,13 +85,19 @@ def send_media_group(api_url, telegramargs, args):
 
 def response(api_url, list, telegramargs):
     message = ''
+    command_dict = {'send message'    : send_message,
+                    'send photo'      : send_photo,
+                    'send video'      : send_video,
+                    'send file'       : send_file,
+                    'send media group': send_media_group
+                    }
     if telegramargs.get('text'):
         message = telegramargs.get('text')
     if telegramargs.get('caption'):
         message = telegramargs.get('caption')
     for dict in list:
         if dict['name'] in message:
-            dict['function'](api_url, telegramargs, dict['args'])
+            command_dict.get(dict['function'])(api_url, telegramargs, dict['args'])
 
 def responses(api_url, list, updates, getAllfiles = False):
     for update in updates['result']:
